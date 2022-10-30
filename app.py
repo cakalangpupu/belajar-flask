@@ -317,8 +317,8 @@ def program_studi():
         db.collection('program_studi').document().set(data)
         flash('Berhasil Menambahkan Program Studi', 'success')
         return redirect(url_for('program_studi'))
-    daftar_jurusan = get_all_collection('program_studi')
-    return render_template('program_studi/program_studi.html', data=program_studi)
+    daftar_program_studi = get_all_collection('program_studi')
+    return render_template('program_studi/program_studi.html', data=daftar_program_studi)
 
 @app.route('/program_studi/hapus/<uid>')
 @login_required

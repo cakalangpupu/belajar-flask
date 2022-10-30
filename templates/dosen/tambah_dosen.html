@@ -21,7 +21,7 @@
             </div>
             <div class="mb-3">
                 <label for="program_studi" class="form-label">Program Studi</label>
-                <select class="form-select" name="jurusan" aria-label="Default select example">
+                <select class="form-select" name="program_studi" aria-label="Default select example">
                     <option selected>Pilih Salah Satu</option>
                     {% for ps in program_studi %}
                     <option value="{{ ps.program_studi }}"> {{ ps.program_studi }}</option>
