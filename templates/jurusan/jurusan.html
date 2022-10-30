@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% set title = 'Daftar Jurusan' %}
+{% set page_active = 'jurusan' %}
+
+{% block _content %}
+<div class="row mt-5">
+    <form action="" method="POST">
+        <div class="mb-3">
+            <label for="jurusan" class="form-label">Nama Jurusan</label>
+            <input type="text" class="form-control" name="jurusan" id="jurusan" placeholder="Masukkan Nama Jurusan"
+                required>
+        </div>
+        <button type="submit" class="btn btn-success">Tambahkan Jurusan</button>
+        <hr>
+    </form>
+</div>
+
+<div class="col-12 mt-4">
+    <h3>Daftar Jurusan</h3>
+</div>
+<div class="col-12">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th scope="col">Nama Jurusan</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dt in data %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ dt.jurusan }}</td>
+                <td>
+                    <button class="btn btn-primary" onclick="editData('{{dt.id}}', '{{dt.jurusan}}')">Edit</button>
+                    <button class="btn btn-danger" onclick="hapusData('{{dt.id}}')">Hapus</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<div class="modal fade" id="edit_jurusan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{ url_for('edit_jurusan') }}" method="POST">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Jurusan</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id_jurusan" id="id_jurusan">
+                    <div class="mb-3">
+                        <label for="nama_jurusan" class="form-label">Nama Jurusan</label>
+                        <input type="text" class="form-control" name="nama_jurusan" id="nama_jurusan" placeholder="Masukkan Nama Jurusan">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block _script %}
+<script>
+    function editData(id, nama) {
+        $('#id_jurusan').val(id)
+        $('#nama_jurusan').val(nama)
+        $('#edit_jurusan').modal('show')
+    }
+    function hapusData(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location = `/jurusan/hapus/${id}`
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+            }
+        })
+    }
+</script>
+
+{% endblock %}
